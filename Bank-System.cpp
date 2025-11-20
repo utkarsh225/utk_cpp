@@ -5,6 +5,12 @@ class bank{
     private:
     int a;
 
+    public:
+        void const2(){
+            cout<<"hey i am cont2"<<endl;
+        }
+
+
 };
 
 int main(){
