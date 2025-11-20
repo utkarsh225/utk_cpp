@@ -6,6 +6,10 @@ class bank{
     int a;
 
     public:
+        void utk(){
+            cout<<"hey"<<endl;
+        }
+
         void const2(){
             cout<<"hey i am cont2"<<endl;
         }
@@ -15,6 +19,6 @@ class bank{
 
 int main(){
     cout<<"Hello World"<<endl;
-
+    cout<<"hello"<<endl;
     return 0;
 }
