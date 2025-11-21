@@ -10,7 +10,7 @@ class bank{
             cout<<"hey"<<endl;
         }
         void const2(){
-            cout<<"hey i am cont2"<<endl;
+            cout<<"hey i am cont2"<<endl<<endl;
         }
 };
 
