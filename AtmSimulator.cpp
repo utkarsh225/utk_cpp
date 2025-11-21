@@ -20,7 +20,7 @@ public:
     }
     virtual void deposit() = 0;
     virtual void withdraw() = 0;
-    virtual int AccountCheck() = 0;
+    virtual int AccountCheck(int enteredaccno) = 0;
     virtual void checkBalance() = 0;
 };
 
@@ -63,12 +63,9 @@ public:
                  << endl;
         }
     }
-    int AccountCheck() override
+    int AccountCheck(int enteredaccno) override
     {
         int enteredPin;
-        int enteredaccno;
-        cout << "enter your Account Number" << endl;
-        cin >> enteredaccno;
         cout << "Hello Enter your Pin" << endl;
         cin >> enteredPin;
         if (accountNumber == enteredaccno && Pin == enteredPin)
@@ -117,53 +114,88 @@ public:
 
 int main()
 {
-    Transactions utkarsh;
-    utkarsh.openAccount();
+    Transactions utkarsh[100];
+    int i = 0;
     while (true)
     {
-        if (utkarsh.AccountCheck())
+        int InNum = 0;
+        cout << "-------------------Welcome To Utkarsh's ATM-------------------" << endl;
+        cout << "1.)Press 1 To open a Bank Account" << endl;
+        cout << "2.)Press 2 to login to existing account" << endl;
+        cout << "3.)press 3 to exit" << endl;
+        cin >> InNum;
+        if (InNum == 1)
+        {
+            utkarsh[i].openAccount();
+            i++;
+            continue;
+        }
+        else if (InNum == 2)
         {
             while (true)
             {
-                int input = 0;
-                cout << "1.)press 1 to withdraw Money" << endl;
-                cout << "2.)press 2 to Deposit Money" << endl;
-                cout << "3.)press 3 to Check Account Balance" << endl;
-                cout << "4.)press 4 to exit" << endl;
-                cin >> input;
+                int enteredaccno;
+                cout << "enter your Account Number" << endl;
+                cin >> enteredaccno;
+                if (utkarsh[enteredaccno].AccountCheck(enteredaccno))
+                {
+                    while (true)
+                    {
+                        int input = 0;
+                        cout << "1.)press 1 to withdraw Money" << endl;
+                        cout << "2.)press 2 to Deposit Money" << endl;
+                        cout << "3.)press 3 to Check Account Balance" << endl;
+                        cout << "4.)press 4 to Return to last Menu" << endl;
+                        cout << "5.)press 5 to exit" << endl;
+                        cin >> input;
 
-                if (input == 1)
-                {
-                    utkarsh.withdraw();
-                    continue;
-                }
-                else if (input == 2)
-                {
-                    utkarsh.deposit();
-                    continue;
-                }
-                else if (input == 3)
-                {
-                    utkarsh.checkBalance();
-                    continue;
-                }
-                else if (input == 4)
-                {
-                    return 0;
+                        if (input == 1)
+                        {
+                            utkarsh[enteredaccno].withdraw();
+                            continue;
+                        }
+                        else if (input == 2)
+                        {
+                            utkarsh[enteredaccno].deposit();
+                            continue;
+                        }
+                        else if (input == 3)
+                        {
+                            utkarsh[enteredaccno].checkBalance();
+                            continue;
+                        }
+                        else if (input == 4)
+                        {
+                            break;
+                        }
+                        else if (input == 5)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            cout << "Invalid Input" << endl;
+                            continue;
+                        }
+                    }
+                    break;
                 }
                 else
                 {
-                    cout << "Invalid Input" << endl;
+                    cout << "Invalid Account No. or Pin" << endl;
                     continue;
                 }
             }
-            break;
+        }
+        else if (InNum == 3)
+        {
+            return 0;
         }
         else
         {
-            cout << "Invalid Account No. or Pin" << endl;
+            cout << "Invalid Input" << endl;
             continue;
         }
     }
-    return 0;   
+    return 0;
 }
