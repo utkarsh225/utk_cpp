@@ -3,50 +3,64 @@ using namespace std;
 
 class mainFunctions
 {
+
 protected:
-    static int accountNumber;
+    static int globalCounter;
+    int accountNumber;
     double accountBalance = 0;
     string Name;
     int Age;
     int Pin;
 
 public:
-    virtual void deposit(double depamt) = 0;
-    virtual void withdraw(double withamt) = 0;
+    mainFunctions()
+    {
+        accountNumber = globalCounter;
+        globalCounter++;
+    }
+    virtual void deposit() = 0;
+    virtual void withdraw() = 0;
     virtual int AccountCheck() = 0;
+    virtual void checkBalance() = 0;
 };
 
-int mainFunctions::accountNumber;
+int mainFunctions::globalCounter;
 
 class Transactions : mainFunctions
 {
 public:
-    void deposit(double depamt) override
+    void deposit() override
     {
-        cout << "Enter Ammount";
+        double depamt;
+        cout << "Enter Ammount: ";
         cin >> depamt;
         if (depamt > 0)
         {
             mainFunctions::accountBalance += depamt;
-            cout << depamt << "Rs deposited Your updated balance is: " << accountBalance;
+            cout << depamt << " Rs deposited Your updated balance is: " << accountBalance << endl
+                 << endl;
         }
         else
         {
-            cout << "Invalid Ammount" << endl;
+            cout << "Invalid Ammount" << endl
+                 << endl;
         }
     }
-    void withdraw(double withamt) override
+    void withdraw() override
     {
-        cout << "Enter Ammount";
+        double withamt;
+        cout << "Enter Ammount: ";
         cin >> withamt;
         if (withamt <= accountBalance)
         {
             mainFunctions::accountBalance -= withamt;
-            cout << withamt << "Rs withdrawn Your updated balance is: " << accountBalance;
+            cout << withamt << " Rs withdrawn Your updated balance is: " << accountBalance << endl
+                 << endl;
         }
         else
         {
-            cout << "Insuficient Balance" << endl;
+            cout << "Insuficient Balance" << endl
+                 << endl;
         }
     }
     int AccountCheck() override
@@ -63,7 +77,7 @@ public:
                  << "Name: " << Name << endl
                  << "Age: " << Age << endl
                  << "Account NO. : " << accountNumber << endl
-                 << "Current Balance: " << accountBalance << endl;
+                 << endl;
             return 1;
         }
         else
@@ -78,16 +92,26 @@ public:
         cin >> Name;
         cout << "Enter Your Age" << endl;
         cin >> Age;
-        cout << "Please Set your 4 digit pin" << endl;
-        cin >> Pin;
-        if (double(Pin / 10000) >= 1 || double(Pin / 1000) < 1)
+        while (true)
         {
-            cout << "Invaid pin" << endl;
+            cout << "Please Set your 4 digit pin" << endl;
+            cin >> Pin;
+            if (Pin >= 1000 && Pin <= 9999)
+            {
+                cout << "Congratualtions! " << Name << " your Account is Active Now with Account Number " << accountNumber << endl;
+                break;
+            }
+            else
+            {
+                cout << "Invaid pin" << endl;
+                continue;
+            }
         }
-        else
-        {
-            cout << "Congratualtions! " << Name << " your Account is Active Now with Account Number " << accountNumber << endl;
-        }
+    }
+    void checkBalance()
+    {
+        cout << "Current Balance: " << accountBalance << endl
+             << endl;
     }
 };
 
@@ -95,6 +119,51 @@ int main()
 {
     Transactions utkarsh;
     utkarsh.openAccount();
-    utkarsh.AccountCheck();
-    return 0;
+    while (true)
+    {
+        if (utkarsh.AccountCheck())
+        {
+            while (true)
+            {
+                int input = 0;
+                cout << "1.)press 1 to withdraw Money" << endl;
+                cout << "2.)press 2 to Deposit Money" << endl;
+                cout << "3.)press 3 to Check Account Balance" << endl;
+                cout << "4.)press 4 to exit" << endl;
+                cin >> input;
+
+                if (input == 1)
+                {
+                    utkarsh.withdraw();
+                    continue;
+                }
+                else if (input == 2)
+                {
+                    utkarsh.deposit();
+                    continue;
+                }
+                else if (input == 3)
+                {
+                    utkarsh.checkBalance();
+                    continue;
+                }
+                else if (input == 4)
+                {
+                    return 0;
+                }
+                else
+                {
+                    cout << "Invalid Input" << endl;
+                    continue;
+                }
+            }
+            break;
+        }
+        else
+        {
+            cout << "Invalid Account No. or Pin" << endl;
+            continue;
+        }
+    }
+    return 0;   
 }
