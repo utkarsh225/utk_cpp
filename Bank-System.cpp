@@ -9,12 +9,9 @@ class bank{
         void utk(){
             cout<<"hey"<<endl;
         }
-
         void const2(){
             cout<<"hey i am cont2"<<endl;
         }
-
-
 };
 
 int main(){
